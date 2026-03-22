@@ -1,20 +1,29 @@
 # Portfolio Project Checkpoint
-_Captured before context compaction — use this to resume in a new agent_
+_Updated: 2026-03-22_
 
 ---
 
 ## Project Overview
-Building a personal portfolio website for **Aayush Yadav** (Product & Business Analyst, IIT Delhi grad, ex-national squash player).
+Personal portfolio website for **Aayush Yadav** (Product & Business Analyst, IIT Delhi grad, ex-national squash player).
 
-**Portfolio file location:** `/Users/aayushyadav/Downloads/final_portfolio/portfolio.html`
-**All assets are in:** `/Users/aayushyadav/Downloads/final_portfolio/`
+**Local file:** `/Users/aayushyadav/Downloads/final_portfolio/index.html`
+**GitHub repo:** `https://github.com/aayushyad-7734/portfolio`
+**Live URL:** `https://aayushyad-7734.github.io/portfolio/`
+**Single file:** Everything (HTML + CSS + JS) is in `index.html`
+
+---
+
+## Tech Stack
+- HTML, CSS, JavaScript (no frameworks, no backend)
+- Hosted on GitHub Pages (free static hosting)
+- GitHub CLI (`gh`) authenticated via personal access token
 
 ---
 
 ## Design
 - **Theme:** Dark background (`#0a0a0a`), light pink accent (`#e8a0b4`), off-white text (`#f0ece6`)
 - **Fonts:** Instrument Serif (headings), DM Sans (body), JetBrains Mono (labels/tags)
-- **Features:** Custom pink cursor dot, scroll-reveal animations, frosted glass nav
+- **Features:** Custom pink cursor dot (desktop only), scroll-reveal animations, frosted glass nav
 
 ---
 
@@ -22,123 +31,98 @@ Building a personal portfolio website for **Aayush Yadav** (Product & Business A
 Fixed top nav with:
 - Logo: `aayush.` (left)
 - Tabs: About · Experience · Projects · Skills · Recognition · Gallery (center)
-- **Resume button:** Pink rectangle, black text, rightmost — opens resume modal on click
+- **Connect button:** Outlined pink border, scrolls to contact section
+- **Resume button:** Filled pink, opens resume modal
+- **Mobile:** Hamburger menu toggles tabs + Connect/Resume buttons
 
 ---
 
 ## Page Sections (in order)
-1. **Hero** — Photo (`image.jpg`), name, title, tagline, fade-in animations
-2. **About** (`#about`) — Bio, 3 key stats (25% V2L, 50% training time, 300+ agents), detail cards (Education, Current Role, Athletics)
-3. **Experience** (`#experience`) — Timeline with Policybazaar (current) + Policybazaar internship (PPO)
-4. **Projects** (`#projects`) — 2×2 grid, each card has hover "View More →" overlay that opens a modal
+1. **Hero** — Photo (`image.jpg`), name, title, tagline
+2. **About** (`#about`) — Bio, 3 key stats, detail cards (Education, Current Role, Athletics)
+3. **Experience** (`#experience`) — Timeline with Policybazaar roles
+4. **Projects** (`#projects`) — 2×2 grid, each card opens a modal via "View More →"
 5. **Skills** (`#skills`) — Pill tags
-6. **Recognition** (`#awards`) — 4 award items + floating horizontal photo carousel (`#gallery`)
+6. **Recognition** (`#awards`) — 4 award items + photo carousel (`#gallery`)
 7. **Contact** (`#contact`) — "Let's build something great" + email/LinkedIn/phone
 
 ---
 
-## Project Modals ("View More")
+## Project Modals
 Each project card opens a modal with: Overview, Design Approach, Tools & Stack, Impact.
-**Challenges section was intentionally removed.**
 
-### Modal content per project:
-- **PROJECT 01 — Mindlessly:** Chrome extension. Has a "How It Works" section with 3 screenshots showing the flow: `mindlessly-1.jpg` (intention), `mindlessly-2.jpg` (timer), `mindlessly-3.jpg` (time's up). Click screenshot = lightbox zoom.
-- **PROJECT 02 — AI Sales Coach:** NotebookLM + transcription API. Has "Output Preview" section with `call-score.jpg` showing the call analysis dashboard.
+### Modal content:
+- **PROJECT 01 — Mindlessly:** Chrome extension. "How It Works" section with 3 screenshots. Click screenshot → lightbox with Back button + prev/next arrows + counter.
+- **PROJECT 02 — AI Sales Coach:** NotebookLM + transcription API. "Output Preview" with `call-score.jpg`.
 - **PROJECT 03 — Data Intelligence KB:** Custom GPT + SQL knowledge base.
 - **PROJECT 04 — Social Proof MVP:** Claude Code + pincode customer density.
 
-### Modal JS functions:
-```javascript
-openModal(id)   // e.g. openModal('modal-01')
-closeModal()
-openLightbox(src)
-closeLightbox()
-```
+---
+
+## Lightbox Features
+- **← Back button** (top-left) — closes lightbox, returns to modal
+- **‹ / › arrows** — navigate between flow screenshots (Mindlessly has 3)
+- **1 / 3 counter** (bottom-center) — shows current position
+- **Arrow keys** — Left/Right navigate, Escape closes
+- Single-image lightboxes (like AI Sales Coach) hide arrows/counter
 
 ---
 
-## Photo Gallery (Recognition section)
-**Type:** Horizontal auto-scrolling carousel with blur/focus effect
-- 1 center image in focus (sharp, scaled up), side images blurred
-- Auto-scrolls every 2.8s, pauses 4s on manual scroll
-- Scroll wheel to navigate, click to focus, click focused image = lightbox
-- 11 images in `medals/` subfolder (converted HEIC → JPG)
-- JS functions: `galleryGoTo(index)`
+## Photo Gallery
+- Horizontal auto-scrolling carousel with blur/focus effect
+- 11 images in `medals/` subfolder
+- Auto-scrolls every 2.8s, pauses on interaction
+- Wheel scroll to navigate, click to focus, click focused → lightbox
 
 ---
 
-## Resume
-- **Resume button in nav** → opens modal with PDF preview
-- PDF lazy-loads only when modal opens (to avoid Safari's PDF toolbar bug)
+## Resume Modal
+- Opens PDF in iframe, lazy-loads on open
 - Download button inside modal
 - File: `resume.pdf`
-- Modal iframe id: `resumeIframe`
-- JS: `openResumeModal()`, `closeResumeModal()`
 
 ---
 
-## Asset Files in `/final_portfolio/`
+## Safari Scroll Fix (Root Cause & Solution)
+
+### Root Cause
+The `resumeModal` element (`position: fixed; z-index: 1101; display: flex; opacity: 0; pointer-events: none`) was blocking scroll events in Safari/WebKit. Even though invisible, WebKit still routes scroll/wheel events to the topmost fixed-position element in the rendering tree. The hidden resume modal was silently consuming scroll events meant for the project modal below it.
+
+### Solution
+Added `visibility: hidden` to ALL inactive overlay elements (modals, backdrops, lightbox). Unlike `opacity: 0` + `pointer-events: none`, `visibility: hidden` fully removes elements from WebKit's scroll event routing.
+
+### Other CSS changes made:
+- Replaced `transform: translate(-50%, -50%)` centering with `inset: 0; margin: auto` (avoids Safari transform+scroll bug)
+- Added `height: fit-content` to `.modal`
+- Added `::-webkit-scrollbar` pseudo-elements (Safari doesn't support `scrollbar-width`/`scrollbar-color`)
+- Body scroll lock uses `position: fixed` technique (preserves/restores scroll position)
+
+---
+
+## Mobile Responsive
+- Hamburger menu with working toggle (tabs + Connect/Resume appear in dropdown)
+- Menu closes on nav link click
+- Single-column layouts for projects, about grid
+- Modal sized to 96vw, adjusted padding
+- Lightbox controls sized down
+- Cursor dot hidden on mobile
+- Hero photo margin removed on mobile
+
+---
+
+## Asset Files
 ```
-portfolio.html          ← main file
+index.html              ← main file (was portfolio.html, renamed for GitHub Pages)
 image.jpg               ← hero profile photo
-resume.pdf              ← CV (APM.pdf copy)
+resume.pdf              ← CV
 call-score.jpg          ← AI Sales Coach output preview
-mindlessly-1.jpg        ← Intention screenshot
-mindlessly-2.jpg        ← Timer screenshot
-mindlessly-3.jpg        ← Time's up screenshot
+mindlessly-1.jpg        ← Step 1 screenshot
+mindlessly-2.jpg        ← Step 2 screenshot
+mindlessly-3.jpg        ← Step 3 screenshot
+Portfolio_photo.png     ← alternate photo
+CHECKPOINT.md           ← this file
 medals/                 ← 11 trophy/medal photos for gallery
-  IMG_0363.jpg
-  IMG_1560.jpg
-  IMG_3377.JPG
-  IMG_3488 2.jpg
-  IMG_6650.jpg
-  IMG_7721.jpg
-  IMG_8604.jpg
-  IMG_8802.jpg
-  55640252-...JPG
-  9255ddc6-...JPG
-  CF6351C0-...JPG
 ```
-
----
-
-## Known Open Issue — Safari Modal Scroll
-**Problem:** The "View More" project modals scroll fine in Chrome but NOT in Safari.
-
-**What was tried (none fully worked):**
-1. `overflow-y: auto` → works Chrome, not Safari
-2. Flex column layout + `min-height: 0` on body → broke Chrome too
-3. `position: fixed` on body for scroll lock → broke Safari modal scroll context
-4. `overflow-y: scroll` + `touch-action: pan-y` + removed `position: sticky` from header → latest attempt, unverified
-
-**Current modal CSS state:**
-```css
-.modal {
-  position: fixed;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -46%);
-  width: min(680px, 92vw);
-  max-height: 90vh;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-  touch-action: pan-y;
-  ...
-}
-.modal-header { /* no position: sticky — removed to fix Safari */ }
-.modal-body { padding, flex column, gap }
-```
-
-**Current JS scroll lock:**
-```javascript
-document.body.style.overflow = 'hidden';  // on open
-document.body.style.overflow = '';         // on close
-```
-
-**Next step suggested by user:**
-Install the `dev-browser` skill from:
-`https://github.com/SawyerHood/dev-browser/tree/main/skills/dev-browser`
-…then use it to actually test and verify the Safari scroll fix in a real browser before accepting.
 
 ---
 
@@ -153,8 +137,16 @@ Install the `dev-browser` skill from:
 
 ---
 
+## GitHub Setup
+- **Repo:** `aayushyad-7734/portfolio` (public)
+- **GitHub Pages:** Enabled, deploys from `main` branch, root `/`
+- **Auth:** GitHub CLI (`gh`) authenticated via personal access token (scopes: `repo`, `read:org`)
+- **Git config:** user.name="Aayush Yadav", user.email="yadaayush7734@gmail.com" (local to this repo)
+
+---
+
 ## What's Left / Nice-to-haves
-- [ ] Fix Safari modal scroll (primary open issue)
-- [ ] Deploy the portfolio online (Netlify / GitHub Pages / Vercel suggested)
-- [ ] Fix LinkedIn URL in contact section (currently correct: linkedin.com/in/aayush-yadav-38a880229)
-- [ ] Mobile responsiveness check
+- [ ] Buy a custom domain (e.g., aayushyadav.in) and connect to GitHub Pages
+- [ ] Mobile testing on real devices
+- [ ] Consider adding a favicon
+- [ ] LinkedIn URL verification in contact section
