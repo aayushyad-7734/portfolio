@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aayush Yadav — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --black: #0a0a0a;
+  --white: #f0ece6;
+  --pink: #e8a0b4;
+  --pink-dim: #c4788e;
+  --pink-glow: rgba(232, 160, 180, 0.08);
+  --pink-glow-strong: rgba(232, 160, 180, 0.15);
+  --gray: #555;
+  --gray-light: #888;
+  --border: rgba(240, 236, 230, 0.06);
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'DM Sans', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pink-dim) var(--black);
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+::selection {
+  background: var(--pink);
+  color: var(--black);
+}
+
+/* ── Cursor Dot ── */
+.cursor-dot {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--pink);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+}
+.cursor-dot.hovering {
+  transform: translate(-50%, -50%) scale(5);
+  opacity: 0.5;
+}
+
+/* ── Noise Overlay ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 10000;
+}
+
+/* ── Nav ── */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 1.5rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  backdrop-filter: blur(20px);
+  background: rgba(10, 10, 10, 0.6);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  color: var(--white);
+  letter-spacing: -0.02em;
+}
+
+.nav-logo span {
+  color: var(--pink);
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 0.15rem;
+  background: rgba(240, 236, 230, 0.04);
+  padding: 0.25rem;
+  border-radius: 2px;
+}
+
+.nav-tab {
+  color: var(--gray-light);
+  text-decoration: none;
+  font-size: 0.65rem;
+  font-family: var(--mono);
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  padding: 0.45rem 0.85rem;
+  border-radius: 1px;
+  position: relative;
+  white-space: nowrap;
+}
+
+.nav-tab:hover {
+  color: var(--pink);
+}
+
+.nav-tab.active {
+  color: var(--pink);
+  background: rgba(232, 160, 180, 0.1);
+}
+
+.nav-resume-btn {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--pink);
+  color: #111;
+  border: none;
+  padding: 0.5rem 1.1rem;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+  box-shadow: 0 0 12px rgba(232,160,180,0.35);
+  flex-shrink: 0;
+}
+
+.nav-resume-btn:hover {
+  background: #f0b8c8;
+  box-shadow: 0 0 20px rgba(232,160,180,0.55);
+  transform: translateY(-1px);
+}
+
+/* ── Hero ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 3rem;
+  position: relative;
+}
+
+.hero-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.hero-text {
+  flex: 1;
+}
+
+.hero-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pink-dim);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.3s;
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(3.5rem, 8vw, 7.5rem);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.5s;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--pink);
+}
+
+.hero-sub {
+  max-width: 520px;
+  font-size: 1.05rem;
+  color: var(--gray-light);
+  line-height: 1.8;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 0.7s;
+}
+
+/* ── Hero Photo ── */
+.hero-photo-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.hero-photo {
+  width: 280px;
+  height: 340px;
+  overflow: hidden;
+  border-radius: 4px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(0.2);
+  transition: filter 0.5s ease;
+}
+
+.hero-photo-wrap:hover img {
+  filter: grayscale(0);
+}
+
+.photo-border {
+  position: absolute;
+  inset: 8px -8px -8px 8px;
+  border: 1px solid var(--pink-dim);
+  border-radius: 4px;
+  z-index: 1;
+  transition: all 0.4s ease;
+}
+
+.hero-photo-wrap:hover .photo-border {
+  inset: 12px -12px -12px 12px;
+  border-color: var(--pink);
+}
+
+.hero-line {
+  position: absolute;
+  bottom: 3rem;
+  left: 3rem;
+  width: 40px;
+  height: 1px;
+  background: var(--pink);
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 1s;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 3rem;
+  right: 3rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gray);
+  writing-mode: vertical-rl;
+  opacity: 0;
+  animation: fadeUp 0.8s ease forwards 1s;
+}
+
+.hero-scroll::before {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 30px;
+  background: var(--pink-dim);
+  margin: 0 auto 12px;
+  animation: pulse 2s ease infinite;
+}
+
+/* ── Sections ── */
+section {
+  padding: 6rem 3rem;
+  border-top: 1px solid var(--border);
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--pink-dim);
+  margin-bottom: 3rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.section-label::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: var(--pink-dim);
+}
+
+/* ── About ── */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.about-text h2 {
+  font-family: var(--serif);
+  font-size: 2.8rem;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.about-text h2 em { color: var(--pink); font-style: italic; }
+
+.about-text p {
+  color: var(--gray-light);
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.stat-row {
+  display: flex;
+  gap: 3rem;
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.stat h3 {
+  font-family: var(--serif);
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--pink);
+  line-height: 1;
+}
+
+.stat p {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gray);
+  margin-top: 0.4rem;
+}
+
+.about-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.detail-card {
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: all 0.4s ease;
+  background: transparent;
+}
+
+.detail-card:hover {
+  background: var(--pink-glow);
+  border-color: rgba(232, 160, 180, 0.15);
+}
+
+.detail-card h4 {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pink-dim);
+  margin-bottom: 0.6rem;
+}
+
+.detail-card p {
+  font-size: 0.9rem;
+  color: var(--gray-light);
+}
+
+/* ── Experience ── */
+.exp-timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.exp-timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--pink-dim), transparent);
+}
+
+.exp-item {
+  position: relative;
+  padding: 2.5rem 0 2.5rem 2.5rem;
+  border-bottom: 1px solid var(--border);
+  cursor: default;
+  transition: all 0.3s ease;
+}
+
+.exp-item:last-child { border-bottom: none; }
+
+.exp-item::before {
+  content: '';
+  position: absolute;
+  left: -2.35rem;
+  top: 3rem;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--black);
+  border: 1.5px solid var(--pink-dim);
+  transition: all 0.3s ease;
+}
+
+.exp-item:hover::before {
+  background: var(--pink);
+  border-color: var(--pink);
+  box-shadow: 0 0 12px rgba(232, 160, 180, 0.4);
+}
+
+.exp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.exp-role {
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.exp-company {
+  font-size: 1rem;
+  color: var(--pink);
+  margin-bottom: 0.3rem;
+}
+
+.exp-date {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  color: var(--gray);
+}
+
+.exp-bullets {
+  list-style: none;
+  margin-top: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.exp-bullets li {
+  font-size: 0.88rem;
+  color: var(--gray-light);
+  padding-left: 1.2rem;
+  position: relative;
+  line-height: 1.7;
+}
+
+.exp-bullets li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--pink-dim);
+  font-size: 0.8rem;
+}
+
+.exp-tag {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--border);
+  color: var(--pink-dim);
+  border-radius: 1px;
+  margin-right: 0.4rem;
+  margin-top: 0.3rem;
+}
+
+/* ── Projects ── */
+.projects-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.project-card {
+  padding: 2.5rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: all 0.5s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top right, var(--pink-glow), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.project-card:hover::before { opacity: 1; }
+
+.project-card:hover {
+  border-color: rgba(232, 160, 180, 0.2);
+  transform: translateY(-3px);
+}
+
+/* View More overlay */
+.project-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,10,10,0.97) 50%, rgba(10,10,10,0.3) 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem 2.5rem;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 2;
+}
+
+.project-card:hover .project-overlay {
+  opacity: 1;
+}
+
+.view-more-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pink);
+  border: 1px solid var(--pink-dim);
+  padding: 0.55rem 1.2rem;
+  border-radius: 1px;
+  background: rgba(232,160,180,0.07);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.view-more-btn:hover {
+  background: rgba(232,160,180,0.18);
+  border-color: var(--pink);
+}
+
+/* ── Modal ── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(8px);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s;
+}
+.modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  width: min(680px, 92vw);
+  height: fit-content;
+  max-height: 90vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  background: #111;
+  border: 1px solid rgba(232,160,180,0.18);
+  border-radius: 4px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s;
+  scrollbar-width: thin;
+  scrollbar-color: var(--pink-dim) #111;
+}
+.modal::-webkit-scrollbar {
+  width: 6px;
+}
+.modal::-webkit-scrollbar-track {
+  background: #111;
+}
+.modal::-webkit-scrollbar-thumb {
+  background-color: rgba(232, 160, 180, 0.35);
+  border-radius: 3px;
+}
+.modal.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.modal-header {
+  padding: 2rem 2.5rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: #111;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.modal-num {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--pink-dim);
+  letter-spacing: 0.15em;
+  margin-bottom: 0.4rem;
+}
+.modal-title {
+  font-family: var(--serif);
+  font-size: 2rem;
+  font-weight: 400;
+  color: var(--white);
+}
+
+.modal-close {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--gray-light);
+  width: 32px;
+  height: 32px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: border-color 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+.modal-close:hover { border-color: var(--pink-dim); color: var(--pink); }
+
+.modal-body {
+  padding: 2rem 2.5rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.modal-section-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--pink-dim);
+  margin-bottom: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.modal-section-label::before {
+  content: '';
+  width: 18px;
+  height: 1px;
+  background: var(--pink-dim);
+}
+
+.modal-text {
+  font-size: 0.9rem;
+  color: var(--gray-light);
+  line-height: 1.75;
+}
+
+.modal-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.modal-tag {
+  padding: 0.28rem 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(232,160,180,0.2);
+  color: var(--pink);
+  border-radius: 1px;
+  background: rgba(232,160,180,0.05);
+}
+
+.modal-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.modal-list li {
+  font-size: 0.875rem;
+  color: var(--gray-light);
+  padding-left: 1.2rem;
+  position: relative;
+  line-height: 1.7;
+}
+.modal-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--pink-dim);
+  font-size: 0.8rem;
+}
+
+/* ── Horizontal Carousel Gallery ── */
+.gallery-wrap {
+  margin-top: 2rem;
+  user-select: none;
+}
+
+.gallery-viewport {
+  overflow: hidden;
+  position: relative;
+  padding: 2rem 0;
+  cursor: grab;
+}
+
+.gallery-viewport:active { cursor: grabbing; }
+
+.gallery-track {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  will-change: transform;
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.gallery-item {
+  flex-shrink: 0;
+  width: 148px;
+  height: 185px;
+  border-radius: 14px;
+  overflow: hidden;
+  will-change: transform, filter, opacity;
+  transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              filter 0.7s ease,
+              opacity 0.7s ease,
+              box-shadow 0.7s ease;
+  cursor: pointer;
+  transform: scale(0.78);
+  filter: blur(3px);
+  opacity: 0.45;
+}
+
+.gallery-item.is-near {
+  transform: scale(0.9);
+  filter: blur(1.5px);
+  opacity: 0.7;
+}
+
+.gallery-item.is-active {
+  transform: scale(1.12);
+  filter: blur(0px);
+  opacity: 1;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(232,160,180,0.2);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  pointer-events: none;
+}
+
+.gallery-hint {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gray);
+  text-align: center;
+  margin-top: 0.75rem;
+}
+
+/* ── Resume Thumbnail ── */
+.resume-thumb-wrap {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(232,160,180,0.18);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  width: 240px;
+  height: 310px;
+}
+
+.resume-thumb-wrap:hover {
+  border-color: rgba(232,160,180,0.5);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(232,160,180,0.15);
+  transform: translateY(-3px);
+}
+
+.resume-thumb-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: #161616;
+  pointer-events: none;
+}
+
+.resume-thumb-icon {
+  opacity: 0.25;
+}
+
+.resume-thumb-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 130px;
+  opacity: 0.15;
+}
+
+.resume-thumb-line {
+  height: 5px;
+  border-radius: 3px;
+  background: var(--white);
+}
+
+.resume-thumb-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--pink-dim);
+  opacity: 0.7;
+}
+
+.resume-thumb-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,10,10,0.9) 0%, transparent 50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.resume-thumb-wrap:hover .resume-thumb-overlay {
+  opacity: 1;
+}
+
+.resume-thumb-overlay span {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pink);
+  border: 1px solid rgba(232,160,180,0.4);
+  padding: 0.4rem 1rem;
+  border-radius: 2px;
+  background: rgba(10,10,10,0.6);
+}
+
+/* ── Resume Modal ── */
+.resume-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(10px);
+  z-index: 1100;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, visibility 0.3s;
+}
+.resume-modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.resume-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -46%);
+  width: min(820px, 94vw);
+  height: 88vh;
+  background: #111;
+  border: 1px solid rgba(232,160,180,0.18);
+  border-radius: 6px;
+  z-index: 1101;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+.resume-modal.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+  transform: translate(-50%, -50%);
+}
+
+.resume-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.resume-modal-header span {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--pink-dim);
+}
+
+.resume-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.resume-dl-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--pink);
+  text-decoration: none;
+  border: 1px solid rgba(232,160,180,0.3);
+  padding: 0.4rem 1rem;
+  border-radius: 2px;
+  background: rgba(232,160,180,0.05);
+  transition: background 0.2s, border-color 0.2s;
+}
+.resume-dl-btn:hover {
+  background: rgba(232,160,180,0.14);
+  border-color: var(--pink);
+}
+
+.resume-modal-close {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--gray-light);
+  width: 30px;
+  height: 30px;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, color 0.2s;
+}
+.resume-modal-close:hover { border-color: var(--pink-dim); color: var(--pink); }
+
+.resume-modal-body {
+  flex: 1;
+  overflow: hidden;
+}
+.resume-modal-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+.modal-impact {
+  background: rgba(232,160,180,0.06);
+  border: 1px solid rgba(232,160,180,0.14);
+  border-radius: 2px;
+  padding: 1.1rem 1.4rem;
+  font-size: 0.875rem;
+  color: var(--white);
+  line-height: 1.7;
+}
+
+/* ── Screenshot Flow ── */
+.flow-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.flow-step {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.flow-step-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--pink-dim);
+}
+
+.flow-step-num {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1px solid var(--pink-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  color: var(--pink);
+  flex-shrink: 0;
+}
+
+.flow-step-connector {
+  width: 1px;
+  height: 16px;
+  background: linear-gradient(to bottom, var(--pink-dim), transparent);
+  margin-left: 9px;
+}
+
+.flow-screenshot {
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid rgba(232,160,180,0.12);
+  cursor: zoom-in;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.flow-screenshot:hover {
+  border-color: rgba(232,160,180,0.35);
+  transform: scale(1.01);
+}
+
+.flow-screenshot img {
+  width: 100%;
+  display: block;
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.25s ease, visibility 0.25s;
+  cursor: zoom-out;
+}
+.lightbox.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+.lightbox img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 4px;
+  object-fit: contain;
+}
+
+.project-num {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--pink-dim);
+  letter-spacing: 0.15em;
+  margin-bottom: 1.2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.project-card h3 {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin-bottom: 0.8rem;
+  position: relative;
+  z-index: 1;
+}
+
+.project-card p {
+  font-size: 0.88rem;
+  color: var(--gray-light);
+  line-height: 1.7;
+  position: relative;
+  z-index: 1;
+}
+
+.project-tech {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Skills ── */
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.skill-pill {
+  padding: 0.6rem 1.4rem;
+  border: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--gray-light);
+  border-radius: 1px;
+  transition: all 0.3s ease;
+  cursor: default;
+}
+
+.skill-pill:hover {
+  border-color: var(--pink-dim);
+  color: var(--pink);
+  background: var(--pink-glow);
+}
+
+/* ── Awards ── */
+.awards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.award-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.award-item:hover {
+  padding-left: 1rem;
+}
+
+.award-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.award-item h4 {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 0.3rem;
+}
+
+.award-item p {
+  font-size: 0.85rem;
+  color: var(--gray-light);
+}
+
+/* ── Contact ── */
+.contact-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 3rem;
+}
+
+.contact-content h2 {
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.contact-content h2 em {
+  color: var(--pink);
+  font-style: italic;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  align-items: flex-end;
+}
+
+.contact-links a {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  color: var(--gray-light);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.contact-links a:hover { color: var(--pink); }
+
+/* ── Footer ── */
+footer {
+  padding: 2rem 3rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--gray);
+  text-transform: uppercase;
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  nav { padding: 1rem 1.5rem; }
+  .nav-tabs { display: none; }
+  .hero { padding: 0 1.5rem; }
+  .hero-inner { flex-direction: column-reverse; gap: 2rem; text-align: left; }
+  .hero-photo { width: 180px; height: 220px; }
+  .photo-border { inset: 6px -6px -6px 6px; }
+  section { padding: 4rem 1.5rem; }
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .stat-row { gap: 2rem; flex-wrap: wrap; }
+  .contact-content { flex-direction: column; align-items: flex-start; }
+  .contact-links { align-items: flex-start; }
+  footer { flex-direction: column; gap: 0.5rem; }
+  .hero-scroll { display: none; }
+
+  .nav-mobile {
+    display: block;
+    cursor: pointer;
+    width: 24px;
+    height: 18px;
+    position: relative;
+  }
+  .nav-mobile span {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--white);
+    position: absolute;
+    transition: all 0.3s ease;
+  }
+  .nav-mobile span:nth-child(1) { top: 0; }
+  .nav-mobile span:nth-child(2) { top: 50%; }
+  .nav-mobile span:nth-child(3) { top: 100%; }
+}
+
+.nav-mobile { display: none; }
+
+@media (max-width: 768px) {
+  .nav-mobile { display: block; }
+}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor-dot" id="cursor"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-logo">aayush<span>.</span></div>
+  <div class="nav-tabs">
+    <a href="#about"      class="nav-tab active" data-section="about">About</a>
+    <a href="#experience" class="nav-tab"        data-section="experience">Experience</a>
+    <a href="#projects"   class="nav-tab"        data-section="projects">Projects</a>
+    <a href="#skills"     class="nav-tab"        data-section="skills">Skills</a>
+    <a href="#awards"     class="nav-tab"        data-section="awards">Recognition</a>
+    <a href="#gallery"    class="nav-tab"        data-section="gallery">Gallery</a>
+  </div>
+  <button class="nav-resume-btn" onclick="openResumeModal()">Resume</button>
+  <div class="nav-mobile" onclick="document.querySelector('.nav-tabs').classList.toggle('show')">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-label">Product & Business Analyst</div>
+      <h1>Aayush<br><em>Yadav</em></h1>
+      <p class="hero-sub">Former national-level squash player turned product thinker. I find user problems, validate them with data, and build solutions that move metrics.</p>
+    </div>
+    <div class="hero-photo-wrap" style="opacity:0; animation: fadeUp 0.8s ease forwards 0.6s; margin-right: 4rem;">
+      <div class="hero-photo">
+        <img src="image.jpg" alt="Aayush Yadav" />
+      </div>
+      <div class="photo-border"></div>
+    </div>
+  </div>
+  <div class="hero-line"></div>
+  <div class="hero-scroll">scroll</div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="section-label reveal">01 — About</div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <h2>Data-driven<br><em>problem solver</em></h2>
+      <p>IIT Delhi graduate with a knack for translating messy business problems into clean, measurable solutions. I blend analytical rigor with product intuition — using SQL, analytics, and AI tools to ship things that matter.</p>
+      <div class="stat-row">
+        <div class="stat">
+          <h3>25%</h3>
+          <p>V2L Conversion Lift</p>
+        </div>
+        <div class="stat">
+          <h3>50%</h3>
+          <p>Training Time Reduced</p>
+        </div>
+        <div class="stat">
+          <h3>300+</h3>
+          <p>Agents Impacted</p>
+        </div>
+      </div>
+    </div>
+    <div class="about-details reveal">
+      <div class="detail-card">
+        <h4>Education</h4>
+        <p>B.Tech, Textile Technology<br>Indian Institute of Technology Delhi<br>2021 — 2025</p>
+      </div>
+      <div class="detail-card">
+        <h4>Current Role</h4>
+        <p>Business/Product Analyst — Health Insurance<br>Policybazaar · May 2025 – Present</p>
+      </div>
+      <div class="detail-card">
+        <h4>Athletics</h4>
+        <p>Captain, IIT Delhi Squash Team<br>National Rank #34 · 8 Gold Medals<br>Best Sportsperson of the Year — IIT Delhi</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+  <div class="section-label reveal">02 — Experience</div>
+  <div class="exp-timeline">
+
+    <div class="exp-item reveal">
+      <div class="exp-header">
+        <div>
+          <div class="exp-company">Policybazaar</div>
+          <div class="exp-role">Business/Product Analyst</div>
+        </div>
+        <div class="exp-date">May 2025 — Present</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Built an AI-powered sales coaching tool using NotebookLM and transcription APIs — analyzes call transcripts against ideal pitch, generates scores, and suggests improvements. Cut training-to-floor time by 50% across 300+ agents.</li>
+        <li>Lifted South India's Visit-to-Lead conversion by 25% through SQL-driven drop-off analysis and funnel optimization via Google Analytics.</li>
+        <li>Implemented cohort segmentation using booking trends, demographics, and behavioral metrics — improved leads-to-bookings conversion by 15%.</li>
+        <li>Built automated lead assignment logic in CRM and a real-time QuickSight dashboard for Operations, eliminating manual allocation.</li>
+        <li>Identified trust as a Tier 2/3 city drop-off driver; shipped a social proofing MVP with Claude Code showing customer density by pincode — 10% conversion lift.</li>
+      </ul>
+      <div style="margin-top: 1rem;">
+        <span class="exp-tag">SQL</span>
+        <span class="exp-tag">Google Analytics</span>
+        <span class="exp-tag">QuickSight</span>
+        <span class="exp-tag">NotebookLM</span>
+        <span class="exp-tag">Claude Code</span>
+        <span class="exp-tag">CRM</span>
+      </div>
+    </div>
+
+    <div class="exp-item reveal">
+      <div class="exp-header">
+        <div>
+          <div class="exp-company">Policybazaar</div>
+          <div class="exp-role">Product Analyst Intern</div>
+        </div>
+        <div class="exp-date">May 2024 — Jul 2024</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Built a company-wide data intelligence knowledge base documenting 100+ database tables, KPIs, and join logic. Developed a Custom GPT enabling self-serve query building across teams.</li>
+        <li>Led in-person surveys with 100+ users to map the health insurance journey end-to-end — uncovered friction points and proposed 15+ ideas, 3 shortlisted for development.</li>
+      </ul>
+      <div style="margin-top: 1rem;">
+        <span class="exp-tag">Custom GPT</span>
+        <span class="exp-tag">User Research</span>
+        <span class="exp-tag">Data Documentation</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="section-label reveal">03 — Projects</div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal" onclick="openModal('modal-01')">
+      <div class="project-num">PROJECT 01</div>
+      <h3>Mindlessly</h3>
+      <p>A Chrome extension that prompts users to declare their purpose before visiting distracting sites and sets a countdown timer — enforcing accountability and cutting mindless browsing.</p>
+      <div class="project-tech">
+        <span class="exp-tag">Chrome Extension</span>
+        <span class="exp-tag">JavaScript</span>
+        <span class="exp-tag">Claude Code</span>
+      </div>
+      <div class="project-overlay">
+        <div class="view-more-btn">View More →</div>
+      </div>
+    </div>
+
+    <div class="project-card reveal" onclick="openModal('modal-02')">
+      <div class="project-num">PROJECT 02</div>
+      <h3>AI Sales Coach</h3>
+      <p>An AI-powered tool that analyzes every sales call transcript against the ideal pitch framework, generating scores across multiple parameters and actionable improvement suggestions for 300+ agents.</p>
+      <div class="project-tech">
+        <span class="exp-tag">NotebookLM</span>
+        <span class="exp-tag">Transcription API</span>
+        <span class="exp-tag">AI/ML</span>
+      </div>
+      <div class="project-overlay">
+        <div class="view-more-btn">View More →</div>
+      </div>
+    </div>
+
+    <div class="project-card reveal" onclick="openModal('modal-03')">
+      <div class="project-num">PROJECT 03</div>
+      <h3>Data Intelligence KB</h3>
+      <p>A comprehensive knowledge base of 100+ database tables and business logic, paired with a Custom GPT that lets anyone describe desired output and get recommended tables, columns, and joins.</p>
+      <div class="project-tech">
+        <span class="exp-tag">Custom GPT</span>
+        <span class="exp-tag">SQL</span>
+        <span class="exp-tag">Documentation</span>
+      </div>
+      <div class="project-overlay">
+        <div class="view-more-btn">View More →</div>
+      </div>
+    </div>
+
+    <div class="project-card reveal" onclick="openModal('modal-04')">
+      <div class="project-num">PROJECT 04</div>
+      <h3>Social Proof MVP</h3>
+      <p>An MVP displaying existing customer density by pincode to build trust in Tier 2/3 cities — addressing the key drop-off driver identified through user behavior analysis. Resulted in 10% conversion improvement.</p>
+      <div class="project-tech">
+        <span class="exp-tag">Claude Code</span>
+        <span class="exp-tag">Analytics</span>
+        <span class="exp-tag">CRO</span>
+      </div>
+      <div class="project-overlay">
+        <div class="view-more-btn">View More →</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="section-label reveal">04 — Toolkit</div>
+  <div class="skills-container reveal">
+    <span class="skill-pill">SQL</span>
+    <span class="skill-pill">Python</span>
+    <span class="skill-pill">Google Analytics</span>
+    <span class="skill-pill">Amazon QuickSight</span>
+    <span class="skill-pill">Product Analytics</span>
+    <span class="skill-pill">A/B Testing</span>
+    <span class="skill-pill">Cohort Analysis</span>
+    <span class="skill-pill">Funnel Optimization</span>
+    <span class="skill-pill">User Research</span>
+    <span class="skill-pill">CRM Systems</span>
+    <span class="skill-pill">Claude Code</span>
+    <span class="skill-pill">Custom GPTs</span>
+    <span class="skill-pill">NotebookLM</span>
+    <span class="skill-pill">Data Visualization</span>
+    <span class="skill-pill">KPI Monitoring</span>
+    <span class="skill-pill">Wireframing</span>
+  </div>
+</section>
+
+<!-- Awards -->
+<section id="awards">
+  <div class="section-label reveal">05 — Recognition</div>
+  <div class="awards-list reveal">
+    <div class="award-item">
+      <div class="award-icon">◆</div>
+      <div>
+        <h4>Best Sportsperson of the Year</h4>
+        <p>Awarded by the IIT Delhi Director for an undefeated season across all tournaments.</p>
+      </div>
+    </div>
+    <div class="award-item">
+      <div class="award-icon">◆</div>
+      <div>
+        <h4>8 Gold, 3 Silver, 1 Bronze</h4>
+        <p>Across inter-college and interstate level squash tournaments. National Rank #34.</p>
+      </div>
+    </div>
+    <div class="award-item">
+      <div class="award-icon">◆</div>
+      <div>
+        <h4>Inter-IIT Sports Meet Champion</h4>
+        <p>Led the IIT Delhi squash team to victory at Inter-IIT Sports Meet 2023 and 2024.</p>
+      </div>
+    </div>
+    <div class="award-item">
+      <div class="award-icon">◆</div>
+      <div>
+        <h4>PPO Offer — Policybazaar</h4>
+        <p>Received a Pre-Placement Offer after internship for outstanding contributions to product and data initiatives.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label reveal" style="margin-top: 3rem;">Images</div>
+  <div class="gallery-wrap reveal" id="gallery">
+    <div class="gallery-viewport" id="galleryViewport">
+      <div class="gallery-track" id="galleryTrack">
+        <div class="gallery-item" onclick="galleryGoTo(0)"><img src="medals/IMG_0363.jpg"  alt="Inter-IIT Winners" /></div>
+        <div class="gallery-item" onclick="galleryGoTo(1)"><img src="medals/IMG_1560.jpg"  alt="Trophy ceremony" /></div>
+        <div class="gallery-item" onclick="galleryGoTo(2)"><img src="medals/IMG_3377.JPG"  alt="Medal ceremony" /></div>
+        <div class="gallery-item" onclick="galleryGoTo(3)"><img src="medals/IMG_3488 2.jpg" alt="Squash tournament" /></div>
+        <div class="gallery-item" onclick="galleryGoTo(4)"><img src="medals/IMG_6650.jpg"  alt="Squash tournament" /></div>
+        <div class="gallery-item" onclick="galleryGoTo(5)"><img src="medals/IMG_7721.jpg"  alt="Awards" /></div>
+        <div class="gallery-item" onclick="galleryGoTo(6)"><img src="medals/IMG_8604.jpg"  alt="Awards" /></div>
+        <div class="gallery-item" onclick="galleryGoTo(7)"><img src="medals/IMG_8802.jpg"  alt="Awards" /></div>
+        <div class="gallery-item" onclick="galleryGoTo(8)"><img src="medals/55640252-17F2-4A6A-9D9F-04301596685B.JPG" alt="Medals" /></div>
+        <div class="gallery-item" onclick="galleryGoTo(9)"><img src="medals/9255ddc6-65e6-4060-8fcc-425b864070fb.JPG" alt="Medals" /></div>
+        <div class="gallery-item" onclick="galleryGoTo(10)"><img src="medals/CF6351C0-D314-4F0A-A932-984219D727C3.JPG" alt="Medals" /></div>
+      </div>
+    </div>
+    <div class="gallery-hint">scroll to browse · click to focus · click again to view</div>
+  </div>
+</section>
+
+<!-- Resume Modal -->
+<div class="resume-modal-backdrop" id="resumeBackdrop" onclick="closeResumeModal()"></div>
+<div class="resume-modal" id="resumeModal">
+  <div class="resume-modal-header">
+    <span>Aayush Yadav — Resume</span>
+    <div class="resume-modal-actions">
+      <a class="resume-dl-btn" href="resume.pdf" download="Aayush_Yadav_Resume.pdf">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+      <button class="resume-modal-close" onclick="closeResumeModal()">✕</button>
+    </div>
+  </div>
+  <div class="resume-modal-body">
+    <iframe id="resumeIframe" title="Aayush Yadav Resume"></iframe>
+  </div>
+</div>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="section-label reveal">06 — Connect</div>
+  <div class="contact-content reveal">
+    <h2>Let's build<br>something <em>great</em></h2>
+    <div class="contact-links">
+      <a href="mailto:yadaayush7734@gmail.com">yadaayush7734@gmail.com</a>
+      <a href="tel:+917734023243">+91-7734023243</a>
+      <a href="https://linkedin.com" target="_blank">LinkedIn ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="" />
+</div>
+
+<!-- Modal Backdrop -->
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModal()"></div>
+
+<!-- Modal: Mindlessly -->
+<div class="modal" id="modal-01">
+  <div class="modal-header">
+    <div>
+      <div class="modal-num">PROJECT 01</div>
+      <div class="modal-title">Mindlessly</div>
+    </div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="modal-section-label">Overview</div>
+      <p class="modal-text">Mindlessly is a Chrome extension built to solve a personal pain point — mindless scrolling. It forces you to declare your intention before visiting distracting sites like YouTube, Instagram, or Twitter, then sets a countdown timer. If you can't state why you're there, you probably shouldn't be.</p>
+    </div>
+    <div>
+      <div class="modal-section-label">Design Approach</div>
+      <p class="modal-text">Kept the UX deliberately minimal — a single input prompt and a timer. No dashboards, no settings overload. The friction of typing your purpose is the product. Built as a popup with a content script that intercepts navigation on blocked domains.</p>
+    </div>
+    <div>
+      <div class="modal-section-label">Tools & Stack</div>
+      <div class="modal-tags">
+        <span class="modal-tag">JavaScript</span>
+        <span class="modal-tag">HTML/CSS</span>
+        <span class="modal-tag">Chrome Extension API</span>
+        <span class="modal-tag">Manifest V3</span>
+        <span class="modal-tag">Claude Code</span>
+        <span class="modal-tag">Vibe Coding</span>
+      </div>
+    </div>
+    <div>
+      <div class="modal-section-label">How It Works</div>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step-label"><div class="flow-step-num">1</div> Declare your intention</div>
+          <div class="flow-screenshot" onclick="openLightbox('mindlessly-1.jpg')">
+            <img src="mindlessly-1.jpg" alt="Step 1 — What's your purpose here?" />
+          </div>
+        </div>
+        <div class="flow-step-connector"></div>
+        <div class="flow-step">
+          <div class="flow-step-label"><div class="flow-step-num">2</div> Choose a timer</div>
+          <div class="flow-screenshot" onclick="openLightbox('mindlessly-2.jpg')">
+            <img src="mindlessly-2.jpg" alt="Step 2 — Choose timer duration" />
+          </div>
+        </div>
+        <div class="flow-step-connector"></div>
+        <div class="flow-step">
+          <div class="flow-step-label"><div class="flow-step-num">3</div> Time's up — stay accountable</div>
+          <div class="flow-screenshot" onclick="openLightbox('mindlessly-3.jpg')">
+            <img src="mindlessly-3.jpg" alt="Step 3 — Time's up" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-impact">
+      Personally reduced daily screen time on distracting sites by ~40%. Demonstrated AI-assisted product development — from idea to shipped extension in under a day.
+    </div>
+  </div>
+</div>
+
+<!-- Modal: AI Sales Coach -->
+<div class="modal" id="modal-02">
+  <div class="modal-header">
+    <div>
+      <div class="modal-num">PROJECT 02</div>
+      <div class="modal-title">AI Sales Coach</div>
+    </div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="modal-section-label">Overview</div>
+      <p class="modal-text">An AI-powered sales coaching tool built at Policybazaar to replace manual QA for sales calls. Every call transcript is automatically scored against the ideal pitch across multiple parameters — opening, needs discovery, objection handling, closing — and personalised improvement suggestions are generated for each agent.</p>
+    </div>
+    <div>
+      <div class="modal-section-label">Design Approach</div>
+      <p class="modal-text">Integrated NotebookLM as the intelligence layer, trained on the ideal pitch playbook. Transcription API converts raw call audio to text, which is then passed through the scoring pipeline. Output is structured feedback per parameter — actionable, not just a number.</p>
+    </div>
+    <div>
+      <div class="modal-section-label">Tools & Stack</div>
+      <div class="modal-tags">
+        <span class="modal-tag">NotebookLM</span>
+        <span class="modal-tag">Transcription API</span>
+        <span class="modal-tag">Google Sheets</span>
+        <span class="modal-tag">Prompt Engineering</span>
+        <span class="modal-tag">CRM Integration</span>
+      </div>
+    </div>
+    <div>
+      <div class="modal-section-label">Output Preview</div>
+      <div class="flow-screenshot" onclick="openLightbox('call-score.jpg')" style="max-width:100%;">
+        <img src="call-score.jpg" alt="Call Analysis Summary — AI Sales Coach" style="width:100%; border-radius:8px;" />
+      </div>
+    </div>
+
+    <div class="modal-impact">
+      Cut training-to-floor time by 50% across 300+ new sales agents. Reduced manual QA dependency significantly, freeing the quality team to focus on edge cases and coaching rather than scoring.
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Data Intelligence KB -->
+<div class="modal" id="modal-03">
+  <div class="modal-header">
+    <div>
+      <div class="modal-num">PROJECT 03</div>
+      <div class="modal-title">Data Intelligence KB</div>
+    </div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="modal-section-label">Overview</div>
+      <p class="modal-text">A company-wide data intelligence knowledge base built during my internship at Policybazaar. Documented 100+ database tables, columns, KPIs, join relationships, and business logic — then trained a Custom GPT on it so anyone in the company could describe their desired output and get recommended tables, columns, and joins without needing SQL expertise.</p>
+    </div>
+    <div>
+      <div class="modal-section-label">Design Approach</div>
+      <p class="modal-text">Structured the documentation in a GPT-parseable format — each table entry includes purpose, key columns, common joins, and example use cases. The Custom GPT was prompted to think like a data analyst, asking clarifying questions before recommending a query structure.</p>
+    </div>
+    <div>
+      <div class="modal-section-label">Tools & Stack</div>
+      <div class="modal-tags">
+        <span class="modal-tag">Custom GPT</span>
+        <span class="modal-tag">SQL</span>
+        <span class="modal-tag">Notion</span>
+        <span class="modal-tag">Google Sheets</span>
+        <span class="modal-tag">Prompt Engineering</span>
+        <span class="modal-tag">Documentation</span>
+      </div>
+    </div>
+    <div class="modal-impact">
+      Enabled self-serve query building across non-technical teams. Reduced dependency on the data team for ad-hoc requests and became a reference used by analysts and PMs across the organisation.
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Social Proof MVP -->
+<div class="modal" id="modal-04">
+  <div class="modal-header">
+    <div>
+      <div class="modal-num">PROJECT 04</div>
+      <div class="modal-title">Social Proof MVP</div>
+    </div>
+    <button class="modal-close" onclick="closeModal()">✕</button>
+  </div>
+  <div class="modal-body">
+    <div>
+      <div class="modal-section-label">Overview</div>
+      <p class="modal-text">An MVP built to address trust as the primary drop-off driver in Tier 2 and Tier 3 cities on Policybazaar's health insurance funnel. The feature displays the number of existing customers in the user's pincode area — showing "X people in your area are covered" — to reduce purchase hesitation through social proof.</p>
+    </div>
+    <div>
+      <div class="modal-section-label">Design Approach</div>
+      <p class="modal-text">Identified trust as the key issue through user interviews and funnel drop-off analysis. Designed the feature to be non-intrusive — a subtle callout on the policy detail page. Used Claude Code to rapidly prototype the MVP, which was then validated with a small user cohort before broader rollout.</p>
+    </div>
+    <div>
+      <div class="modal-section-label">Tools & Stack</div>
+      <div class="modal-tags">
+        <span class="modal-tag">Claude Code</span>
+        <span class="modal-tag">SQL</span>
+        <span class="modal-tag">Google Analytics</span>
+        <span class="modal-tag">A/B Testing</span>
+        <span class="modal-tag">CRM Data</span>
+        <span class="modal-tag">CRO</span>
+      </div>
+    </div>
+    <div class="modal-impact">
+      10% improvement in conversion rate in Tier 2/3 cities. Validated that trust — not price or product — was the primary barrier to purchase in non-metro markets.
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <span>© 2026 Aayush Yadav</span>
+  <span>Designed with intention</span>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+let mouseX = 0, mouseY = 0;
+
+document.addEventListener('mousemove', (e) => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursor.style.left = mouseX + 'px';
+  cursor.style.top = mouseY + 'px';
+});
+
+document.querySelectorAll('a, .project-card, .detail-card, .skill-pill, .exp-item, .nav-tab').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+});
+
+// Scroll reveal
+const revealElements = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 100);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+revealElements.forEach(el => observer.observe(el));
+
+// Nav tab active state on scroll
+const tabs = document.querySelectorAll('.nav-tab');
+const sections = ['about', 'experience', 'projects', 'skills', 'awards', 'gallery'];
+
+function updateActiveTab() {
+  let current = '';
+  sections.forEach(id => {
+    const section = document.getElementById(id);
+    if (section) {
+      const rect = section.getBoundingClientRect();
+      if (rect.top <= 200) current = id;
+    }
+  });
+  tabs.forEach(tab => {
+    tab.classList.toggle('active', tab.dataset.section === current);
+  });
+}
+
+window.addEventListener('scroll', updateActiveTab);
+
+// Horizontal Gallery Carousel
+(function() {
+  const ITEM_W = 148;
+  const GAP = 16;
+  const STEP = ITEM_W + GAP;
+  const TOTAL = 11;
+  const AUTO_DELAY = 2800;
+  const PAUSE_AFTER_INTERACT = 4000;
+
+  let current = 0;
+  let autoTimer = null;
+  let pauseTimer = null;
+
+  const track    = document.getElementById('galleryTrack');
+  const viewport = document.getElementById('galleryViewport');
+  if (!track || !viewport) return;
+
+  const items = Array.from(track.querySelectorAll('.gallery-item'));
+
+  function render() {
+    const vw = viewport.offsetWidth;
+    const offset = vw / 2 - ITEM_W / 2;
+    track.style.transform = `translateX(${offset - current * STEP}px)`;
+    items.forEach((el, i) => {
+      const dist = Math.abs(i - current);
+      el.classList.remove('is-active', 'is-near');
+      if (dist === 0) el.classList.add('is-active');
+      else if (dist === 1) el.classList.add('is-near');
+    });
+  }
+
+  function goTo(index, fromUser) {
+    current = ((index % TOTAL) + TOTAL) % TOTAL;
+    render();
+    if (fromUser) pauseAuto();
+  }
+
+  window.galleryGoTo = function(index) {
+    if (index === current) {
+      // already active — open lightbox
+      openLightbox(items[index].querySelector('img').getAttribute('src'));
+      return;
+    }
+    goTo(index, true);
+  };
+
+  // Auto scroll
+  function startAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => {
+      current = (current + 1) % TOTAL;
+      render();
+    }, AUTO_DELAY);
+  }
+
+  function pauseAuto() {
+    clearInterval(autoTimer);
+    clearTimeout(pauseTimer);
+    pauseTimer = setTimeout(startAuto, PAUSE_AFTER_INTERACT);
+  }
+
+  // Wheel scroll — one step per significant scroll
+  let wheelAcc = 0, wheelTimer;
+  viewport.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    wheelAcc += e.deltaY + e.deltaX;
+    clearTimeout(wheelTimer);
+    wheelTimer = setTimeout(() => {
+      const steps = Math.sign(wheelAcc);
+      if (steps !== 0) goTo(current + steps, true);
+      wheelAcc = 0;
+    }, 60);
+  }, { passive: false });
+
+  // Init
+  render();
+  startAuto();
+
+  // Re-render on resize
+  window.addEventListener('resize', render);
+})();
+
+// Scroll lock — uses position:fixed on body (Safari-compatible)
+let _scrollLockY = 0;
+function lockBodyScroll() {
+  _scrollLockY = window.scrollY;
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${_scrollLockY}px`;
+  document.body.style.left = '0';
+  document.body.style.right = '0';
+  document.body.style.overflow = 'hidden';
+}
+function unlockBodyScroll() {
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.left = '';
+  document.body.style.right = '';
+  document.body.style.overflow = '';
+  window.scrollTo(0, _scrollLockY);
+}
+
+// Modal open/close
+function openModal(id) {
+  const modal = document.getElementById(id);
+  modal.classList.add('open');
+  document.getElementById('modal-backdrop').classList.add('open');
+  lockBodyScroll();
+  modal.scrollTop = 0;
+}
+function closeModal() {
+  document.querySelectorAll('.modal').forEach(m => m.classList.remove('open'));
+  document.getElementById('modal-backdrop').classList.remove('open');
+  unlockBodyScroll();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closeLightbox(); closeResumeModal(); } });
+
+// Resume modal
+window.openResumeModal = function() {
+  const iframe = document.getElementById('resumeIframe');
+  if (!iframe.src || iframe.src === window.location.href) iframe.src = 'resume.pdf';
+  document.getElementById('resumeModal').classList.add('open');
+  document.getElementById('resumeBackdrop').classList.add('open');
+  lockBodyScroll();
+};
+window.closeResumeModal = function() {
+  document.getElementById('resumeModal').classList.remove('open');
+  document.getElementById('resumeBackdrop').classList.remove('open');
+  unlockBodyScroll();
+  const iframe = document.getElementById('resumeIframe');
+  iframe.src = '';
+};
+
+// Lightbox
+function openLightbox(src) {
+  event.stopPropagation();
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightbox-img').src = '';
+}
+
+// Smooth scroll for nav tabs
+tabs.forEach(tab => {
+  tab.addEventListener('click', function(e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>
